@@ -1,0 +1,33 @@
+<template name="careplanUpsertPage">
+  <div id="careplanUpsertPage" style="{{getPageHeight}}">
+    {{> recordHeader type="record" url="careplans" spreadsheet=false  imageGrid=false}}
+
+    <div id="careplanUpsertCard" class="padded card-contents page" style="{{getOpacity}}">
+
+      <div id="careplanMetaData">
+        <div id="careplanMetaInputs">
+          <input id="careplanNameInput" class="glass form-control" type="text" placeholder="careplanname" value="{{ getName }}" {{isReadOnly}}><br>
+          <input id="careplanEmailInput"  class="glass form-control" type="text" placeholder="careplanname@somewhere.com" value="{{getEmailAddress}}" {{isReadOnly}}>
+          <!-- <input id="careplanAvatarInput"  class="glass form-control" type="text" placeholder="http://www.widget.com/cog.jpg" value="{{profile.avatar}}" {{isReadOnly}}> -->
+        </div>
+        <img id="careplanImage" src="{{profile.avatar}}" />
+      </div>
+      <textarea id="careplanDescriptionInput"  class="glass form-control" rows="10" placeholder="Lorem ipsum dolar set et..." {{isReadOnly}}>{{profile.description}}</textarea><br>
+    </div>
+
+    <footer class="pageFooter">
+      <button id="saveUserButton">
+        <i class="fa fa-dot-circle-o"></i>
+        <i class="fa fa-dot-circle-o"></i>
+        <i class="fa fa-dot-circle-o"></i>
+      </button>
+      {{#if _id}}
+        <button id="removeUserButton">
+          <i class="fa fa-times"></i>
+          <i class="fa fa-times"></i>
+          <i class="fa fa-times"></i>
+        </button>
+      {{/if}}
+    </footer>
+  </div>
+</template>

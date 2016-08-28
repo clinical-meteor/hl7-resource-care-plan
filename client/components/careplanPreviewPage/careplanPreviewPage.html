@@ -1,0 +1,11 @@
+<template name="careplanPreviewPage">
+  <div id="careplanPreviewPage" class="fullheight padded page">
+    {{> recordHeader type="record" url="careplans" spreadsheet=false  imageGrid=false}}
+      <div id="careplanPreviewCard" class="card-contents" style="{{getOpacity}}">
+        <h2 id="careplanfullNameText">{{profile.name}}</h2>
+        <p id="notesText">
+          {{description}}
+        </p>
+      </div>
+  </div>
+</template>

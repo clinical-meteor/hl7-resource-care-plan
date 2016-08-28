@@ -1,0 +1,32 @@
+
+<template name="careplansListPage">
+  <div id="careplansListPage" class="page" style="{{getPageHeight}}">
+    {{> recordHeader url="careplans" spreadsheet=false  imageGrid=false}}
+    <div class="horizontally-padded page" style="{{getOpacityWithCorner}}">
+      <input id="careplanSearchInput" type="text" class="glass fullwidth form-control" placeholder="search..." value="{{getRecordSearchFilter}}" />
+      <ul id="careplansUnorderedList">
+        {{#if hasNoContent}}
+          <li id="noResultsMessage" class="addRecordIcon">
+            <article class="noResultsMessage">
+              <span>There are no results!  Click to add one.</span>
+            </article>
+            <div class="fadeAway"></div>
+          </li>
+
+        {{else}}
+          {{#each careplansList}}
+            <li class="careplanItem">
+              <article>
+                <h2 class="fullNameText">{{profile.fullName}}</h2>
+                <span class="pull-right barcode gray idText">{{_id}}</span><br>
+                <span class="descriptionText">{{profile.description}}</span>
+              </article>
+              <div class="fadeAway"></div>
+            </li>
+          {{/each}}
+        {{/if}}
+      </ul>
+    </div>
+    {{> recordFooter }}
+  </div>
+</template>
