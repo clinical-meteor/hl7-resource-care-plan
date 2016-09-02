@@ -23,22 +23,23 @@ Package.onUse(function (api) {
 
     api.use('clinical:base-model@1.3.1');
     api.use('clinical:router@2.0.17');
-    api.addFiles('client/components/careplanUpsertPage/careplanUpsertPage.html', ['client']);
-    api.addFiles('client/components/careplanUpsertPage/careplanUpsertPage.js', ['client']);
-    api.addFiles('client/components/careplanUpsertPage/careplanUpsertPage.less', ['client']);
 
-    api.addFiles('client/components/careplansTablePage/careplansTablePage.html', ['client']);
-    api.addFiles('client/components/careplansTablePage/careplansTablePage.js', ['client']);
-    api.addFiles('client/components/careplansTablePage/careplansTablePage.less', ['client']);
-    api.addFiles('client/components/careplansTablePage/jquery.tablesorter.js', ['client']);
-
-    api.addFiles('client/components/careplanPreviewPage/careplanPreviewPage.html', ['client']);
-    api.addFiles('client/components/careplanPreviewPage/careplanPreviewPage.js', ['client']);
-    api.addFiles('client/components/careplanPreviewPage/careplanPreviewPage.less', ['client']);
-
-    api.addFiles('client/components/careplansListPage/careplansListPage.html', ['client']);
-    api.addFiles('client/components/careplansListPage/careplansListPage.js', ['client']);
-    api.addFiles('client/components/careplansListPage/careplansListPage.less', ['client']);
+    // api.addFiles('client/components/careplanUpsertPage/careplanUpsertPage.html', ['client']);
+    // api.addFiles('client/components/careplanUpsertPage/careplanUpsertPage.js', ['client']);
+    // api.addFiles('client/components/careplanUpsertPage/careplanUpsertPage.less', ['client']);
+    //
+    // api.addFiles('client/components/careplansTablePage/careplansTablePage.html', ['client']);
+    // api.addFiles('client/components/careplansTablePage/careplansTablePage.js', ['client']);
+    // api.addFiles('client/components/careplansTablePage/careplansTablePage.less', ['client']);
+    // api.addFiles('client/components/careplansTablePage/jquery.tablesorter.js', ['client']);
+    //
+    // api.addFiles('client/components/careplanPreviewPage/careplanPreviewPage.html', ['client']);
+    // api.addFiles('client/components/careplanPreviewPage/careplanPreviewPage.js', ['client']);
+    // api.addFiles('client/components/careplanPreviewPage/careplanPreviewPage.less', ['client']);
+    //
+    // api.addFiles('client/components/careplansListPage/careplansListPage.html', ['client']);
+    // api.addFiles('client/components/careplansListPage/careplansListPage.js', ['client']);
+    // api.addFiles('client/components/careplansListPage/careplansListPage.less', ['client']);
 
   api.export('CarePlan');
   api.export('CarePlans');
