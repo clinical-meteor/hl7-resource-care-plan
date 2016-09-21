@@ -42,13 +42,13 @@ var newCarePlan = {
     display: "Overweight",
     reference: "Conditions/CGZMzf92YzNNy9QXg"
   },
-  relatedPlan: [[
+  relatedPlan: [{
     code: 'fullfills',
     plan: {
       display: "Daily Exercise Template",
       reference: "CarePlans/Ezmogee2PZ2ShhYu5"
     }
-  ]],
+  }],
   participant: [{
     role: {
       text: "Primary Care Physician"
