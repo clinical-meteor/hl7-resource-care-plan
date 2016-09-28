@@ -1,6 +1,6 @@
 Package.describe({
   name: 'clinical:hl7-resource-careplan',
-  version: '1.0.6',
+  version: '1.0.7',
   summary: 'HL7 FHIR Resource - CarePlan',
   git: 'https://github.com/clinical-meteor/hl7-resource-careplan',
   documentation: 'README.md'
@@ -13,7 +13,7 @@ Package.onUse(function (api) {
   api.use('mongo');
   api.use('aldeed:simple-schema@1.3.3');
   api.use('aldeed:collection2@2.3.3');
-  api.use('clinical:hl7-resource-datatypes@0.4.6');
+  api.use('clinical:hl7-resource-datatypes@0.4.7');
   api.use('simple:json-routes@2.1.0');
   api.use('prime8consulting:meteor-oauth2-server@0.0.2');
 
@@ -21,7 +21,7 @@ Package.onUse(function (api) {
   api.addFiles('server/rest.js', 'server');
   api.addFiles('server/initialize.js', 'server');
 
-    api.use('clinical:base-model@1.3.1');
+  api.use('clinical:base-model@1.3.1');
     // api.use('clinical:router@2.0.17');
 
     // api.addFiles('client/components/careplanUpsertPage/careplanUpsertPage.html', ['client']);
@@ -44,8 +44,3 @@ Package.onUse(function (api) {
   api.export('CarePlan');
   api.export('CarePlans');
 });
-
-// Package.onTest(function (api) {
-//   api.use('tinytest');
-//   api.use('clinical:hl7-resource-careplan');
-// });
