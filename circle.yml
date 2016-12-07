@@ -32,13 +32,13 @@ dependencies:
     # Link the meteor executable into /usr/bin
     - sudo ln -s $HOME/.meteor/meteor /usr/bin/meteor
     # Check if the helloworld directory already exists, if it doesn't, create the helloworld app
-    - if [ ! -e ${HOME}/helloworld ]; then meteor create --release METEOR@1.1.0.3 helloworld; else echo "helloworld app seems to be cached"; fi;
+    - if [ ! -e ${HOME}/helloworld ]; then meteor create --release METEOR@1.4.2.3 helloworld; else echo "helloworld app seems to be cached"; fi;
 
   override:
     - cd helloworld
     - cd helloworld && ls -la
-    - cd helloworld && rm helloworld.*
-    - cd helloworld && meteor add anti:gagarin@0.4.11 session meteor-platform clinical:theming clinical:default-theme clinical:router clinical:router-default-config clinical:active-layout clinical:active-layout-reset clinical:active-layout-pagescreen-config grove:less
+    - cd helloworld/client && rm main.*
+    - cd helloworld && meteor add anti:gagarin@0.4.12
     - cd helloworld && git clone http://github.com/clinical-meteor/hl7-resource-careplan packages/hl7-resource-careplan
     - cd helloworld && meteor add clinical:hl7-resource-careplan clinical:hl7-resource-datatypes
     - cd helloworld/packages && ls -la
@@ -46,7 +46,8 @@ dependencies:
     - cd helloworld/packages/hl7-resource-careplan/tests && ls -la
     - cd helloworld/packages/hl7-resource-careplan/tests/gagarin && ls -la
     - cd helloworld && starrynight autoconfig
-
+    - cd helloworld && meteor npm install
+    
 ## Customize test commands
 test:
   pre:
