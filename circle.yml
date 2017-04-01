@@ -37,22 +37,14 @@ dependencies:
   override:
     - cd helloworld
     - cd helloworld && ls -la
-    - cd helloworld/client && rm main.*
-    - cd helloworld && meteor add anti:gagarin@0.4.12
-    - cd helloworld && git clone http://github.com/clinical-meteor/hl7-resource-careplan packages/hl7-resource-careplan
-    - cd helloworld && meteor add clinical:hl7-resource-careplan clinical:hl7-resource-datatypes
-    - cd helloworld/packages && ls -la
-    - cd helloworld/packages/hl7-resource-careplan && ls -la
-    - cd helloworld/packages/hl7-resource-careplan/tests && ls -la
-    - cd helloworld/packages/hl7-resource-careplan/tests/gagarin && ls -la
-    - cd helloworld && starrynight autoconfig
     - cd helloworld && meteor npm install
+    - cd helloworld && npm i --save-dev selenium-webdriver@3.0.0-beta-2 chromedriver
+    - cd helloworld && meteor add dispatch:mocha practicalmeteor:chai
+    - cd helloworld && meteor add clinical:hl7-resource-care-plan
+    - cd helloworld && mkdir imports 
+    - cd helloworld && cp ../tests/CarePlans.tests.js imports/
     
 ## Customize test commands
 test:
-  pre:
-    - cd helloworld && meteor:
-          background: true
-    - sleep 80
   override:
-    - cd helloworld && starrynight run-tests --type package-verification
+    - cd helloworld && meteor test --once --driver-package dispatch:mocha 
