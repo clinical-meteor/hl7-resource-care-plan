@@ -2,6 +2,7 @@
 
 import CarePlansPage from './client/react/CarePlansPage';
 import CarePlansTable from './client/react/CarePlansTable';
+import CarePlanDesignerPage from './client/react/CarePlansTable';
 import { CarePlan, CarePlans, CarePlanSchema } from './lib/CarePlans';
 
 var DynamicRoutes = [{
