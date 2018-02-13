@@ -6,7 +6,7 @@ import Toggle from 'material-ui/Toggle';
 
 Session.setDefault('deselectedActivities', []);
 
-export default class MedicationTable extends React.Component {
+export default class MedicationsTable extends React.Component {
   getMeteorData() {
 
     // this should all be handled by props
@@ -130,5 +130,5 @@ export default class MedicationTable extends React.Component {
 
 
 
-MedicationTable.propTypes = {};
-ReactMixin(MedicationTable.prototype, ReactMeteorData);
+MedicationsTable.propTypes = {};
+ReactMixin(MedicationsTable.prototype, ReactMeteorData);

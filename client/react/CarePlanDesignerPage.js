@@ -8,7 +8,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
 import { ActivitiesTable, GoalsTable } from 'meteor/clinical:hl7-resource-goal';
-import { MedicationTable } from 'meteor/clinical:hl7-resource-medication';
+import { MedicationsTable } from 'meteor/clinical:hl7-resource-medication';
 import { PatientTable } from 'meteor/clinical:hl7-resource-patient'
 
 import React from 'react';
@@ -192,7 +192,7 @@ export class CarePlanDesignerPage extends React.Component {
                 subtitle='Select the medications the patient will receive.'
               />
               <CardText>
-                <MedicationTable />
+                <MedicationsTable />
               </CardText>
             </GlassCard>
           </section>
