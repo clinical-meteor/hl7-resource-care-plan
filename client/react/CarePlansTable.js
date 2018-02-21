@@ -158,8 +158,7 @@ export default class CarePlansTable extends React.Component {
           <td>{this.data.careplans[i].goals}</td>
           <td>{ moment(this.data.careplans[i].period.start).format("YYYY-MM-DD") }</td>
           <td>{ moment(this.data.careplans[i].period.end).format("YYYY-MM-DD") }</td>
-          {/* <td>{this.data.careplans[i].template}</td> */}
-          {this.renderBarcode.bind('this', this.this.data.careplans[i]._id)}
+          {this.renderBarcode.bind('this', this.data.careplans[i]._id)}
         </tr>
       );
     }
