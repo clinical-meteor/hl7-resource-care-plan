@@ -2,7 +2,7 @@ import React from 'react';
 import ReactMixin from 'react-mixin';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import { Table } from 'react-bootstrap';
-
+import { get, has } from 'lodash';
 
 export default class CarePlansTable extends React.Component {
 
@@ -156,8 +156,8 @@ export default class CarePlansTable extends React.Component {
           <td>{this.data.careplans[i].pm}</td>
           <td>{this.data.careplans[i].activities}</td>
           <td>{this.data.careplans[i].goals}</td>
-          <td>{ moment(this.data.careplans[i].period.start).format("YYYY-MM-DD") }</td>
-          <td>{ moment(this.data.careplans[i].period.end).format("YYYY-MM-DD") }</td>
+          <td>{ moment(get(this, 'data.careplans[i].period.start')).format("YYYY-MM-DD") }</td>
+          <td>{ moment(get(this, 'data.careplans[i].period.end')).format("YYYY-MM-DD") }</td>
           {this.renderBarcode.bind('this', this.data.careplans[i]._id)}
         </tr>
       );
@@ -165,7 +165,7 @@ export default class CarePlansTable extends React.Component {
 
 
     return(
-      <Table responses hover >
+      <Table hover >
         <thead>
           <tr>
             <th>title</th>

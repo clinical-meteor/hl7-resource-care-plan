@@ -20,7 +20,6 @@ import { Session } from 'meteor/session';
 
 import { browserHistory } from 'react-router';
 
-
 Session.setDefault('patientDialogOpen', false);
 export class CarePlanDesignerPage extends React.Component {
   constructor(props) {
@@ -120,25 +119,10 @@ export class CarePlanDesignerPage extends React.Component {
       />
     ];
     return (
-      <section id='carePlanPage' style={{paddingTop: "20px", position: 'absolute'}}>
+      <section id='carePlanDesignerPage' style={{paddingTop: "20px", position: 'absolute'}}>
         <VerticalCanvas >
 
           <section id="patientSection" style={style.indexCardPadding} >
-            {/* <GlassCard style={style.indexCard} >
-              <CardTitle
-                title='Patient'
-                subtitle='Select the patient this care plan will be for.'
-              />
-              <CardText>
-                <PatientTable
-                  limit={10}
-                  hideAvatar={true}
-                  showSearch={true}
-                />
-              </CardText>
-            </GlassCard> */}
-
-
             <GlassCard>
               <CardTitle
                 title="Patient Pick List"
@@ -199,7 +183,7 @@ export class CarePlanDesignerPage extends React.Component {
 
           <DynamicSpacer />
 
-          <section id="activiyiesSection" style={style.indexCardPadding} >
+          <section id="activitiesSection" style={style.indexCardPadding} >
             <GlassCard style={style.indexCard} >
               <CardTitle
                 title='Activities'
