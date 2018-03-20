@@ -131,6 +131,13 @@ If you're working with HL7 FHIR Resources, we recommend using [Postman](https://
 
 The resource in this package implements the FHIR Practitioner Resource schema provided at  [https://www.hl7.org/fhir/careplan.html](https://www.hl7.org/fhir/careplan.html).  
 
+
+===============================
+#### References  
+
+The following may be useful for determining Goals and Activities.  
+[https://loinc.org/sdh/](LOINC - Social Determinants of Health)
+
 ===============================
 #### Licensing  
 
