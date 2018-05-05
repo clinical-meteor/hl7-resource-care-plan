@@ -24,11 +24,7 @@ export {
 
   CarePlansPage,
   CarePlansTable,
-  CarePlanDesignerPage,
-
-  CarePlan,
-  CarePlans,
-  CarePlanSchema
+  CarePlanDesignerPage
 };
 
 
