@@ -4,17 +4,72 @@ import { ReactMeteorData } from 'meteor/react-meteor-data';
 import { Table } from 'react-bootstrap';
 import { get, has } from 'lodash';
 
-export default class CarePlansTable extends React.Component {
 
+flattenCarePlan = function(plan){
+  // careplans: CarePlans.find({'subject.reference': Meteor.userId}).map(function(plan){
+  // todo: replace tertiary logic
+
+  console.log('flattenCarePlan', plan)
+
+  let result = {
+    _id: plan._id,
+    subject: '',
+    author: '',
+    template: '',
+    am: '',
+    pm: '',
+    activities: '',
+    goals: '',
+    start: '',
+    end: '',
+    title: ''
+  };
+
+  if (plan.template) {
+    result.template = plan.template.toString();
+  }
+  if (plan.subject && plan.subject.display) {
+    result.subject = plan.subject.display;
+  }
+  if (plan.author && plan.author[0] && plan.author[0].display) {
+    result.author = plan.author[0].display;
+  }
+  if (plan.createdAt) {
+    result.createdAt = moment(plan.period.start).format("YYYY-MM-DD hh:mm a");
+  }
+  if (plan.activity) {
+    result.activities = plan.activity.length;
+  }
+  if (plan.goal) {
+    result.goals = plan.goal.length;
+  }
+  if (typeof plan.title === "string") {
+    result.title = plan.title;
+  } else {
+    result.title = get(plan, 'category[0].text')    
+  }
+
+  // if( plan.period ) {
+  //   if (plan.period.start) {
+  //     result.start = plan.period.start;
+  //   }
+  //   if (plan.period.end) {
+  //     result.end = plan.period.end;
+  //   }
+  // }
+
+  return result;
+}
+export class CarePlansTable extends React.Component {
+  
   getMeteorData() {
 
     // default query is scoped to the logged in user
     let carePlanQuery = {'subject.reference': Meteor.userId()};
-    if (Meteor.user() && Meteor.user().roles && Meteor.user().roles[0] && (Meteor.user().roles[0] === "practitioner")) {
+    if (get(Meteor.user(), 'roles[0]') === "practitioner") {
       // practitioner query is open ended and returns everybody
       carePlanQuery = {};
     }
-
 
     // this should all be handled by props
     // or a mixin!
@@ -28,79 +83,31 @@ export default class CarePlansTable extends React.Component {
 
 
     if(this.props.data){
-      data.careplans = this.props.data;
+      this.props.data.forEach(function(plan){
+        data.careplans.push(flattenCarePlan(plan));
+      })
     } else {
-      data.careplans = CarePlans.find(carePlanQuery).map(function(plan){
-        // careplans: CarePlans.find({'subject.reference': Meteor.userId}).map(function(plan){
-        // todo: replace tertiary logic
-
-        let result = {
-          _id: plan._id,
-          subject: '',
-          author: '',
-          template: '',
-          am: '',
-          pm: '',
-          activities: '',
-          goals: '',
-          start: '',
-          end: '',
-          title: ''
-        };
-
-        if (plan.template) {
-          result.template = plan.template.toString();
-        }
-        if (plan.subject && plan.subject.display) {
-          result.subject = plan.subject.display;
-        }
-        if (plan.author && plan.author[0] && plan.author[0].display) {
-          result.author = plan.author[0].display;
-        }
-        if (plan.createdAt) {
-          result.createdAt = moment(plan.period.start).format("YYYY-MM-DD hh:mm a");
-        }
-        if (plan.activity) {
-          result.activities = plan.activity.length;
-        }
-        if (plan.goal) {
-          result.goals = plan.goal.length;
-        }
-        if (plan.title) {
-          result.title = plan.title;
-        }
-        // if( plan.period ) {
-        //   if (plan.period.start) {
-        //     result.start = plan.period.start;
-        //   }
-        //   if (plan.period.end) {
-        //     result.end = plan.period.end;
-        //   }
-        // }
-
-        return result;
-      });
+      data.careplans = CarePlans.find(carePlanQuery).map(flattenCarePlan);
     }
 
+    // if (Session.get('darkroomEnabled')) {
+    //   data.style.color = "black";
+    //   data.style.background = "white";
+    // } else {
+    //   data.style.color = "white";
+    //   data.style.background = "black";
+    // }
 
-    if (Session.get('darkroomEnabled')) {
-      data.style.color = "black";
-      data.style.background = "white";
-    } else {
-      data.style.color = "white";
-      data.style.background = "black";
-    }
+    // // this could be another mixin
+    // if (Session.get('glassBlurEnabled')) {
+    //   data.style.filter = "blur(3px)";
+    //   data.style.webkitFilter = "blur(3px)";
+    // }
 
-    // this could be another mixin
-    if (Session.get('glassBlurEnabled')) {
-      data.style.filter = "blur(3px)";
-      data.style.webkitFilter = "blur(3px)";
-    }
-
-    // this could be another mixin
-    if (Session.get('backgroundBlurEnabled')) {
-      data.style.backdropFilter = "blur(5px)";
-    }
+    // // this could be another mixin
+    // if (Session.get('backgroundBlurEnabled')) {
+    //   data.style.backdropFilter = "blur(5px)";
+    // }
 
     if(process.env.NODE_ENV === "test") console.log("CarePlansTable[data]", data);
 
@@ -152,12 +159,12 @@ export default class CarePlansTable extends React.Component {
           <td>{this.data.careplans[i].title }</td>
           <td>{this.data.careplans[i].subject }</td>
           <td>{this.data.careplans[i].author }</td>
-          <td>{this.data.careplans[i].am}</td>
+          {/* <td>{this.data.careplans[i].am}</td>
           <td>{this.data.careplans[i].pm}</td>
           <td>{this.data.careplans[i].activities}</td>
-          <td>{this.data.careplans[i].goals}</td>
-          <td>{ moment(get(this, 'data.careplans[i].period.start')).format("YYYY-MM-DD") }</td>
-          <td>{ moment(get(this, 'data.careplans[i].period.end')).format("YYYY-MM-DD") }</td>
+          <td>{this.data.careplans[i].goals}</td> */}
+          {/* <td>{ moment(get(this, 'data.careplans[i].period.start')).format("YYYY-MM-DD") }</td>
+          <td>{ moment(get(this, 'data.careplans[i].period.end')).format("YYYY-MM-DD") }</td> */}
           {this.renderBarcode.bind('this', this.data.careplans[i]._id)}
         </tr>
       );
@@ -171,12 +178,12 @@ export default class CarePlansTable extends React.Component {
             <th>title</th>
             <th>subject</th>
             <th>author</th>
-            <th>am</th>
+            {/* <th>am</th>
             <th>pm</th>
             <th>activities</th>
-            <th>goals</th>
-            <th>start</th>
-            <th>end</th>
+            <th>goals</th> */}
+            {/* <th>start</th>
+            <th>end</th> */}
             {/* <th>template</th> */}
             {this.renderBarcodeHeader}
           </tr>
@@ -193,3 +200,4 @@ export default class CarePlansTable extends React.Component {
 
 CarePlansTable.propTypes = {};
 ReactMixin(CarePlansTable.prototype, ReactMeteorData);
+export default CarePlansTable;
