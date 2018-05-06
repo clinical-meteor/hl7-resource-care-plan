@@ -9,7 +9,7 @@ flattenCarePlan = function(plan){
   // careplans: CarePlans.find({'subject.reference': Meteor.userId}).map(function(plan){
   // todo: replace tertiary logic
 
-  console.log('flattenCarePlan', plan)
+  // console.log('flattenCarePlan', plan)
 
   let result = {
     _id: plan._id,
@@ -101,7 +101,7 @@ export class CarePlansTable extends React.Component {
     // // this could be another mixin
     // if (Session.get('glassBlurEnabled')) {
     //   data.style.filter = "blur(3px)";
-    //   data.style.webkitFilter = "blur(3px)";
+    //   data.style.WebkitFilter = "blur(3px)";
     // }
 
     // // this could be another mixin

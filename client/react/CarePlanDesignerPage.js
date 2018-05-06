@@ -59,7 +59,7 @@ export class CarePlanDesignerPage extends React.Component {
     // this could be another mixin
     if (Session.get('glassBlurEnabled')) {
       data.style.filter = 'blur(3px)';
-      data.style.webkitFilter = 'blur(3px)';
+      data.style.WebkitFilter = 'blur(3px)';
     }
 
     // the following assumes that we only have a single CarePlan record in the database
