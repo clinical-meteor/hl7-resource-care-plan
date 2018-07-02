@@ -143,3 +143,9 @@ If you're working with HL7 FHIR Resources, we recommend using [Postman](https://
 The following may be useful for determining Goals and Activities.  
 [https://loinc.org/sdh/](LOINC - Social Determinants of Health)
 
+
+
+--------------------------------------------  
+#### Acknowledgements     
+
+Many thanks to DxRx Medical, the HL7 Argonaut Project, Clinicians on FHIR, UPenn Medical, and Parkland Center for Care Innovation for helping sponsor this package.  
