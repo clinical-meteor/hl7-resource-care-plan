@@ -1,8 +1,20 @@
 ## clinical:hl7-resource-careplan  
 
-HL7 FHIR Resource - CarePlan
+#### Licensing  
 
-===============================
+![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)
+
+
+#### Integration & Verification Tests  
+
+[![CircleCI](https://circleci.com/gh/clinical-meteor/hl7-resource-careplan/tree/master.svg?style=svg)](https://circleci.com/gh/clinical-meteor/hl7-resource-careplan/tree/master)
+
+
+#### API Reference  
+
+This package implements the FHIR List resource schema provided at [https://www.hl7.org/fhir/careplan.html](https://www.hl7.org/fhir/careplan.html).
+
+
 #### Installation  
 
 ````bash
@@ -13,7 +25,6 @@ meteor add clinical:hl7-resource-careplan
 INITIALIZE=true meteor
 ````
 
-===============================
 #### Example   
 
 ```js
@@ -105,7 +116,7 @@ var newCarePlan = {
 CarePlans.insert(newCarePlan);
 ```
 
-===============================
+
 #### Extending the Schema
 
 ```js
@@ -121,24 +132,14 @@ ExtendedCarePlanSchema = new SimpleSchema([
 CarePlans.attachSchema( ExtendedCarePlanSchema );
 ```
 
-===============================
+
 #### Utilities  
 
 If you're working with HL7 FHIR Resources, we recommend using [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en).
 
-===============================
-#### Conformance Statement  
 
-The resource in this package implements the FHIR Practitioner Resource schema provided at  [https://www.hl7.org/fhir/careplan.html](https://www.hl7.org/fhir/careplan.html).  
-
-
-===============================
 #### References  
 
 The following may be useful for determining Goals and Activities.  
 [https://loinc.org/sdh/](LOINC - Social Determinants of Health)
 
-===============================
-#### Licensing  
-
-![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)
