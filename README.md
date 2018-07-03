@@ -12,7 +12,7 @@
 
 #### API Reference  
 
-This package implements the FHIR List resource schema provided at [https://www.hl7.org/fhir/careplan.html](https://www.hl7.org/fhir/careplan.html).
+This package implements the FHIR List resource schema provided at [https://www.hl7.org/fhir/DSTU2/careplan.html](https://www.hl7.org/fhir/DSTU2/careplan.html).
 
 
 #### Installation  
