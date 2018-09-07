@@ -1,6 +1,6 @@
 Package.describe({
   name: 'clinical:hl7-resource-careplan',
-  version: '1.3.1',
+  version: '1.3.2',
   summary: 'HL7 FHIR Resource - CarePlan',
   git: 'https://github.com/clinical-meteor/hl7-resource-careplan',
   documentation: 'README.md'
@@ -33,7 +33,7 @@ Package.onUse(function (api) {
 
   api.use('clinical:hl7-resource-goal@1.3.0');
   api.use('clinical:hl7-resource-medication@1.3.0');
-  api.use('clinical:hl7-resource-patient@3.4.0');
+  api.use('clinical:hl7-resource-patient@3.4.2');
 
   api.addFiles('lib/CarePlans.js', ['client', 'server']);
   api.addFiles('server/rest.js', 'server');
