@@ -182,7 +182,7 @@ export default class CarePlanDetail extends React.Component {
       // not sure why we're having to respecify this; fix for a bug elsewhere
       carePlanUpdate.resourceType = 'CarePlan';
 
-      CarePlans.update(
+      CarePlans._collection.update(
         {_id: Session.get('selectedCarePlan')}, {$set: carePlanUpdate }, function(error, result) {
           if (error) {
             console.log("error", error);
@@ -201,7 +201,7 @@ export default class CarePlanDetail extends React.Component {
 
       if(process.env.NODE_ENV === "test") console.log("create a new carePlan", carePlanUpdate);
 
-      CarePlans.insert(carePlanUpdate, function(error, result) {
+      CarePlans._collection.insert(carePlanUpdate, function(error, result) {
         if (error) {
           console.log("error", error);
           Bert.alert(error.reason, 'danger');
@@ -222,7 +222,7 @@ export default class CarePlanDetail extends React.Component {
   }
 
   handleDeleteButton(){
-    CarePlan.remove({_id: Session.get('selectedCarePlan')}, function(error, result){
+    CarePlan._collection.remove({_id: Session.get('selectedCarePlan')}, function(error, result){
       if (error) {
         Bert.alert(error.reason, 'danger');
       }

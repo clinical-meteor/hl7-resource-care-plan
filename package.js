@@ -31,8 +31,8 @@ Package.onUse(function (api) {
   api.use('matb33:collection-hooks@0.7.15');
   api.use('clinical:alert@2.1.3')
 
-  api.use('clinical:hl7-resource-goal@1.3.5');
-  api.use('clinical:hl7-resource-medication@1.3.4');
+  api.use('clinical:hl7-resource-goal@1.3.6');
+  api.use('clinical:hl7-resource-medication@1.3.5');
   api.use('clinical:hl7-resource-patient@3.4.8');
 
   api.addFiles('lib/CarePlans.js', ['client', 'server']);
