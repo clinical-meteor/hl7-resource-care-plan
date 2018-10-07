@@ -1,12 +1,16 @@
-import { CardActions, CardText } from 'material-ui/Card';
+import { CardActions, CardText, CardTitle, RaisedButton } from 'material-ui';
 
 import { Bert } from 'meteor/clinical:alert';
-import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin from 'react-mixin';
 import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
+import { Glass, GlassCard, VerticalCanvas, FullPageCanvas, DynamicSpacer } from 'meteor/clinical:glass-ui';
+
+import { ConditionsTable } from 'meteor/clinical:hl7-resource-condition';
+import { GoalsTable } from 'meteor/clinical:hl7-resource-goal';
+import { MedicationsTable } from 'meteor/clinical:hl7-resource-medication';
 
 let defaultCarePlan = {
   "resourceType": "CarePlan",
@@ -84,19 +88,25 @@ export default class CarePlanDetail extends React.Component {
 
     }
 
+    console.log('CarePlanDetail.data', data)
     return data;
   }
 
   render() {
     return (
       <div id={this.props.id} className="carePlanDetail">
-        <CardText>
+        <CardTitle title='Addresses' />
+        <ConditionsTable />
+        <DynamicSpacer />
 
+        <CardTitle title='Goals' />
+        <GoalsTable />
+        <DynamicSpacer />
 
+        <CardTitle title='Medications' />
+        <MedicationsTable />
+        <DynamicSpacer />
 
-
-
-        </CardText>
         <CardActions>
           { this.determineButtons(this.data.carePlanId) }
         </CardActions>

@@ -51,14 +51,16 @@ export class CarePlansPage extends React.Component {
           <GlassCard height='auto'>
             <CardTitle title='CarePlans' />
             <CardText>
-              <Tabs id="carePlansPageTabs" default value={this.data.tabIndex} onChange={this.handleTabChange} initialSelectedIndex={1}>
+              <CarePlansTable />
+
+              {/* <Tabs id="carePlansPageTabs" default value={this.data.tabIndex} onChange={this.handleTabChange} initialSelectedIndex={1}>
                <Tab className="carePlanListTab" label='CarePlans' onActive={this.handleActive} style={this.data.style.tab} value={1}>
                 <CarePlansTable />
                </Tab>
                <Tab className="carePlanDetailsTab" label='Detail' onActive={this.handleActive} style={this.data.style.tab} value={2}>
                  <CarePlanDetail id='carePlanDetails' />
                </Tab>
-             </Tabs>
+             </Tabs> */}
             </CardText>
           </GlassCard>
         </VerticalCanvas>

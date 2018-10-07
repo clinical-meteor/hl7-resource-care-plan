@@ -4,6 +4,7 @@ import { ReactMeteorData } from 'meteor/react-meteor-data';
 import { Table } from 'react-bootstrap';
 import { get, has } from 'lodash';
 
+import { browserHistory } from 'react-router';
 
 flattenCarePlan = function(plan){
   // careplans: CarePlans.find({'subject.reference': Meteor.userId}).map(function(plan){
@@ -134,10 +135,13 @@ export class CarePlansTable extends React.Component {
     // set the user
     Session.set("selectedCarePlan", id);
 
-    // set which tab is selected
-    let state = Session.get('patientCardState');
-    state["index"] = 2;
-    Session.set('patientCardState', state);
+    // // set which tab is selected
+    // let state = Session.get('patientCardState');
+    // state["index"] = 2;
+    // Session.set('patientCardState', state);
+
+    browserHistory.push('/careplan/' + id);
+
   }
   renderBarcode(i){
     if (this.props.showBarcode) {
