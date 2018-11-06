@@ -6,6 +6,9 @@ import { get, has } from 'lodash';
 
 import { browserHistory } from 'react-router';
 
+import { FaTags, FaCode, FaPuzzlePiece, FaLock  } from 'react-icons/fa';
+
+
 flattenCarePlan = function(plan){
   // careplans: CarePlans.find({'subject.reference': Meteor.userId}).map(function(plan){
   // todo: replace tertiary logic
@@ -159,7 +162,13 @@ export class CarePlansTable extends React.Component {
     let tableRows = [];
     for (var i = 0; i < this.data.careplans.length; i++) {
       tableRows.push(
-        <tr key={i} className="patientRow" style={{cursor: "pointer"}} onClick={ this.rowClick.bind('this', this.data.careplans[i]._id)} >
+        <tr key={i} className="patientRow" style={{cursor: "pointer", textAlign: 'left'}} onClick={ this.rowClick.bind('this', this.data.careplans[i]._id)} >
+          <td className='meta' style={{width: '100px'}}>
+            <FaLock style={{marginLeft: '2px', marginRight: '2px'}} />
+            <FaTags style={{marginLeft: '2px', marginRight: '2px'}} />
+            <FaCode style={{marginLeft: '2px', marginRight: '2px'}} />
+            <FaPuzzlePiece style={{marginLeft: '2px', marginRight: '2px'}} />
+          </td>
           <td>{this.data.careplans[i].title }</td>
           <td>{this.data.careplans[i].subject }</td>
           <td>{this.data.careplans[i].author }</td>
@@ -179,9 +188,10 @@ export class CarePlansTable extends React.Component {
       <Table hover >
         <thead>
           <tr>
-            <th>title</th>
-            <th>subject</th>
-            <th>author</th>
+            <th className='meta'>Meta</th>
+            <th>Title</th>
+            <th>Subject</th>
+            <th>Author</th>
             {/* <th>am</th>
             <th>pm</th>
             <th>activities</th>
