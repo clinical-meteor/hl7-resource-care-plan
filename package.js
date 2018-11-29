@@ -1,6 +1,6 @@
 Package.describe({
   name: 'clinical:hl7-resource-careplan',
-  version: '1.3.10',
+  version: '1.3.11',
   summary: 'HL7 FHIR Resource - CarePlan',
   git: 'https://github.com/clinical-meteor/hl7-resource-careplan',
   documentation: 'README.md'
