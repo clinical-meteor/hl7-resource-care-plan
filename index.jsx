@@ -2,6 +2,7 @@
 
 import CarePlansPage from './client/react/CarePlansPage';
 import CarePlansTable from './client/react/CarePlansTable';
+import CarePlanDetail from './client/react/CarePlanDetail';
 import CarePlanDesignerPage from './client/react/CarePlanDesignerPage';
 import CarePlanDetailPage from './client/react/CarePlanDetailPage';
 import { CarePlan, CarePlans, CarePlanSchema } from './lib/CarePlans';
@@ -44,6 +45,7 @@ export {
 
   CarePlansPage,
   CarePlansTable,
+  CarePlanDetail,
   CarePlanDesignerPage
 };
 

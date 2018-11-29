@@ -62,7 +62,7 @@ Session.setDefault('carePlanUpsert', false);
 Session.setDefault('selectedCarePlan', false);
 
 
-export default class CarePlanDetail extends React.Component {
+export class CarePlanDetail extends React.Component {
   getMeteorData() {
     let data = {
       carePlanId: false,
@@ -252,3 +252,4 @@ CarePlanDetail.propTypes = {
   hasUser: PropTypes.object
 };
 ReactMixin(CarePlanDetail.prototype, ReactMeteorData);
+export default CarePlanDetail;
