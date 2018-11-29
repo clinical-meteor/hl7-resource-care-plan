@@ -55,5 +55,6 @@ Package.onUse(function (api) {
 Npm.depends({
   "simpl-schema": "1.5.3",
   "moment": "2.22.2",
-  "lodash": "4.17.4"
+  "lodash": "4.17.4",
+  "react-icons": "3.2.2"
 })
