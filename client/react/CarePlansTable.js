@@ -146,10 +146,10 @@ export class CarePlansTable extends React.Component {
     browserHistory.push('/careplan/' + id);
 
   }
-  renderBarcode(i){
+  renderBarcode(_id){
     if (this.props.showBarcode) {
       return (
-        <td><span className="barcode">{this.data.careplans[i]._id}</span></td>
+        <td><span className="barcode">{ _id }</span></td>
       );
     }
   }
@@ -162,7 +162,7 @@ export class CarePlansTable extends React.Component {
     let tableRows = [];
     for (var i = 0; i < this.data.careplans.length; i++) {
       tableRows.push(
-        <tr key={i} className="patientRow" style={{cursor: "pointer", textAlign: 'left'}} onClick={ this.rowClick.bind('this', this.data.careplans[i]._id)} >
+        <tr key={i} className="patientRow" style={{cursor: "pointer", textAlign: 'left'}} onClick={ this.rowClick.bind(this, this.data.careplans[i]._id)} >
           <td className='meta' style={{width: '100px'}}>
             <FaLock style={{marginLeft: '2px', marginRight: '2px'}} />
             <FaTags style={{marginLeft: '2px', marginRight: '2px'}} />
@@ -178,7 +178,7 @@ export class CarePlansTable extends React.Component {
           <td>{this.data.careplans[i].goals}</td> */}
           {/* <td>{ moment(get(this, 'data.careplans[i].period.start')).format("YYYY-MM-DD") }</td>
           <td>{ moment(get(this, 'data.careplans[i].period.end')).format("YYYY-MM-DD") }</td> */}
-          {this.renderBarcode.bind('this', this.data.careplans[i]._id)}
+          {/* {this.renderBarcode.bind(this, this.data.careplans[i]._id)} */}
         </tr>
       );
     }
@@ -192,14 +192,7 @@ export class CarePlansTable extends React.Component {
             <th>Title</th>
             <th>Subject</th>
             <th>Author</th>
-            {/* <th>am</th>
-            <th>pm</th>
-            <th>activities</th>
-            <th>goals</th> */}
-            {/* <th>start</th>
-            <th>end</th> */}
-            {/* <th>template</th> */}
-            {this.renderBarcodeHeader}
+            {/* {this.renderBarcodeHeader} */}
           </tr>
         </thead>
         <tbody>
