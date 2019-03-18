@@ -1,3 +1,5 @@
+import { Card, CardActions, CardMedia, CardText, CardTitle, Toggle } from 'material-ui';
+
 import React from 'react';
 import ReactMixin from 'react-mixin';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
@@ -5,8 +7,11 @@ import { Table } from 'react-bootstrap';
 import { get, has } from 'lodash';
 
 import { browserHistory } from 'react-router';
+import PropTypes from 'prop-types';
 
 import { FaTags, FaCode, FaPuzzlePiece, FaLock  } from 'react-icons/fa';
+
+import { GoTrashcan } from 'react-icons/go'
 
 
 flattenCarePlan = function(plan){
@@ -47,10 +52,17 @@ flattenCarePlan = function(plan){
   if (plan.goal) {
     result.goals = plan.goal.length;
   }
-  if (typeof plan.title === "string") {
-    result.title = plan.title;
-  } else {
-    result.title = get(plan, 'category[0].text')    
+
+  
+
+  if(!result.title){
+    result.title = get(plan, 'title', '')    
+  }
+  if(!result.title){
+    result.title = get(plan, 'category[0].text', '')    
+  }
+  if(!result.title){
+    result.title = get(plan, 'category[0].coding[0].display', '')    
   }
 
   // if( plan.period ) {
@@ -158,27 +170,55 @@ export class CarePlansTable extends React.Component {
       return (<th>id</th>);
     }
   }
+  renderToggleHeader(){
+    if (!this.props.hideToggle) {
+      return (
+        <th className="toggle">Toggle</th>
+      );
+    }
+  }
+  renderToggle(){
+    if (!this.props.hideToggle) {
+      return (
+        <td className="toggle" style={{width: '60px'}}>
+            <Toggle
+              defaultToggled={true}
+            />
+          </td>
+      );
+    }
+  }
+  renderSubjectHeader(){
+    if (!this.props.hideSubject) {
+      return (
+        <th className='patientDisplay'>Patient</th>
+      );
+    }
+  }
+  renderSubject(subject ){
+    if (!this.props.hideSubject) {
+      return (
+        <td className='subject' style={{minWidth: '140px'}}>{ subject }</td>
+      );
+    }
+  }
   render () {
     let tableRows = [];
     for (var i = 0; i < this.data.careplans.length; i++) {
       tableRows.push(
         <tr key={i} className="patientRow" style={{cursor: "pointer", textAlign: 'left'}} onClick={ this.rowClick.bind(this, this.data.careplans[i]._id)} >
-          <td className='meta' style={{width: '100px'}}>
+          { this.renderToggle(this.data.careplans[i]._id) }
+          <td className='meta' style={{width: '120px'}}>
             <FaLock style={{marginLeft: '2px', marginRight: '2px'}} />
             <FaTags style={{marginLeft: '2px', marginRight: '2px'}} />
             <FaCode style={{marginLeft: '2px', marginRight: '2px'}} />
             <FaPuzzlePiece style={{marginLeft: '2px', marginRight: '2px'}} />
+            <GoTrashcan style={{marginLeft: '2px', marginRight: '2px'}} />
           </td>
           <td>{this.data.careplans[i].title }</td>
-          <td>{this.data.careplans[i].subject }</td>
+          {/* <td>{this.data.careplans[i].subject }</td> */}
+          { this.renderSubject( this.data.careplans[i].subject ) } 
           <td>{this.data.careplans[i].author }</td>
-          {/* <td>{this.data.careplans[i].am}</td>
-          <td>{this.data.careplans[i].pm}</td>
-          <td>{this.data.careplans[i].activities}</td>
-          <td>{this.data.careplans[i].goals}</td> */}
-          {/* <td>{ moment(get(this, 'data.careplans[i].period.start')).format("YYYY-MM-DD") }</td>
-          <td>{ moment(get(this, 'data.careplans[i].period.end')).format("YYYY-MM-DD") }</td> */}
-          {/* {this.renderBarcode.bind(this, this.data.careplans[i]._id)} */}
         </tr>
       );
     }
@@ -188,11 +228,12 @@ export class CarePlansTable extends React.Component {
       <Table hover >
         <thead>
           <tr>
-            <th className='meta'>Meta</th>
+            { this.renderToggleHeader() }
+            <th className='actions'>Actions</th>
             <th>Title</th>
-            <th>Subject</th>
+            { this.renderSubjectHeader() }
+            {/* <th>Subject</th> */}
             <th>Author</th>
-            {/* {this.renderBarcodeHeader} */}
           </tr>
         </thead>
         <tbody>
@@ -205,6 +246,15 @@ export class CarePlansTable extends React.Component {
 }
 
 
-CarePlansTable.propTypes = {};
+CarePlansTable.propTypes = {
+  data: PropTypes.array,
+  query: PropTypes.object,
+  paginationLimit: PropTypes.number,
+  hideIdentifier: PropTypes.bool,
+  hideToggle: PropTypes.bool,
+  hideActionIcons: PropTypes.bool,
+  hideSubject: PropTypes.bool,
+  enteredInError: PropTypes.bool
+};
 ReactMixin(CarePlansTable.prototype, ReactMeteorData);
 export default CarePlansTable;

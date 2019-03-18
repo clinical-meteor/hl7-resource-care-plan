@@ -1,11 +1,7 @@
-import { Card, CardHeader, CardText, CardTitle } from 'material-ui/Card';
+import { Card, CardHeader, CardText, CardTitle, Dialog, FlatButton, RaisedButton, TextField } from 'material-ui';
 import { GlassCard, VerticalCanvas, Glass, DynamicSpacer } from 'meteor/clinical:glass-ui';
 
 import AccountCircle from 'material-ui/svg-icons/action/account-circle';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
 
 import { ActivitiesTable, GoalsTable } from 'meteor/clinical:hl7-resource-goal';
 import { MedicationsTable } from 'meteor/clinical:hl7-resource-medication';
@@ -74,12 +70,16 @@ export class CarePlanDesignerPage extends React.Component {
       }
     }
 
+    data.style = Glass.blur(data.style);
+    data.style.tab = Glass.darkroom(data.style.tab);
+
     return data;
   }
   changeInput(variable, event, value){
     Session.set(variable, value);
   }  
   handleOpenPatients(){
+    console.log('handleOpenPatients.bind(this) ')
     Session.set('patientDialogOpen', true);
   }  
   handleClosePatients(){
@@ -109,65 +109,85 @@ export class CarePlanDesignerPage extends React.Component {
       <FlatButton
         label="Clear"
         primary={true}
-        onTouchTap={this.handleClosePatients}
+        onChange={this.handleClosePatients}
       />,
       <FlatButton
         label="Select"
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.handleClosePatients}
+        onChange={this.handleClosePatients}
       />
     ];
+
+    let patientPicklist;
+
+    if(!Patients.findOne()){
+      patientPicklist = <section id="patientSection" style={style.indexCardPadding} >
+      <GlassCard>
+        <CardTitle
+          title="Patient Pick List"
+        />
+        <CardText>
+
+          <TextField
+            hintText="Jane Doe"
+            errorText="Patient Search"
+            onChange={this.changeInput.bind(this, 'description')}
+            value={this.data.patientDialog.patient.display}
+            fullWidth>
+              <FlatButton
+                label="Patients"
+                className="patientsButton"
+                primary={true}
+                onChange={this.handleOpenPatients.bind(this) }
+                icon={ <AccountCircle /> }
+                style={{textAlign: 'right', cursor: 'pointer'}}
+              />
+            </TextField>
+
+          <Dialog
+            title="Patient Search"
+            actions={patientActions}
+            modal={false}
+            open={this.data.patientDialog.open}
+            onRequestClose={this.handleClosePatients}
+          >
+            <CardText style={{overflowY: "auto"}}>
+            <TextField
+              hintText="Jane Doe"
+              errorText="Patient Search"
+              onChange={this.changeInput.bind(this, 'description')}
+              value={this.data.patientDialog.patient.display}
+              fullWidth />
+              <PatientTable />
+            </CardText>
+          </Dialog>
+        </CardText>
+      </GlassCard>
+      <DynamicSpacer />
+    </section>
+    }
     return (
-      <section id='carePlanDesignerPage' style={{paddingTop: "20px", position: 'absolute'}}>
+      <section id='carePlanDesignerPage' style={{paddingTop: "20px"}}>
         <VerticalCanvas >
 
-          <section id="patientSection" style={style.indexCardPadding} >
-            <GlassCard>
+          { patientPicklist }
+
+
+
+          <section id="goalsSelection" style={style.indexCardPadding} >
+            <GlassCard style={style.indexCard} >
               <CardTitle
-                title="Patient Pick List"
+                title='Goals'
+                subtitle='Select the goals for the patient treatment.'
               />
               <CardText>
-
-                <TextField
-                  hintText="Jane Doe"
-                  errorText="Patient Search"
-                  onChange={this.changeInput.bind(this, 'description')}
-                  value={this.data.patientDialog.patient.display}
-                  fullWidth>
-                    <FlatButton
-                      label="Patients"
-                      className="patientsButton"
-                      primary={true}
-                      onTouchTap={this.handleOpenPatients}
-                      icon={ <AccountCircle /> }
-                      style={{textAlign: 'right', cursor: 'pointer'}}
-                    />
-                  </TextField>
-
-                <Dialog
-                  title="Patient Search"
-                  actions={patientActions}
-                  modal={false}
-                  open={this.data.patientDialog.open}
-                  onRequestClose={this.handleClosePatients}
-                >
-                  <CardText style={{overflowY: "auto"}}>
-                  <TextField
-                    hintText="Jane Doe"
-                    errorText="Patient Search"
-                    onChange={this.changeInput.bind(this, 'description')}
-                    value={this.data.patientDialog.patient.display}
-                    fullWidth />
-                    <PatientTable />
-                  </CardText>
-                </Dialog>
+                <GoalsTable hideIdentifier={true} />
               </CardText>
             </GlassCard>
           </section>
 
-
-          <DynamicSpacer />
+          <DynamicSpacer />          
 
           <section id="medicationSection" style={style.indexCardPadding} >
             <GlassCard style={style.indexCard} >
@@ -176,7 +196,7 @@ export class CarePlanDesignerPage extends React.Component {
                 subtitle='Select the medications the patient will receive.'
               />
               <CardText>
-                <MedicationsTable />
+                <MedicationsTable hideIdentifier={true}  />
               </CardText>
             </GlassCard>
           </section>
@@ -188,6 +208,7 @@ export class CarePlanDesignerPage extends React.Component {
               <CardTitle
                 title='Activities'
                 subtitle='Select the activities the patient ought to engage in.'
+                hideIdentifier={true} 
               />
               <CardText>
                 <ActivitiesTable />
@@ -197,19 +218,7 @@ export class CarePlanDesignerPage extends React.Component {
 
           <DynamicSpacer />
 
-          <section id="goalsSelection" style={style.indexCardPadding} >
-            <GlassCard style={style.indexCard} >
-              <CardTitle
-                title='Goals'
-                subtitle='Select the goals for the patient treatment.'
-              />
-              <CardText>
-                <GoalsTable />
-              </CardText>
-            </GlassCard>
-          </section>
 
-          <DynamicSpacer />
 
 
           <section  style={style.indexCardPadding}>
@@ -217,6 +226,7 @@ export class CarePlanDesignerPage extends React.Component {
               id='authorCarePlanButton'
               label="Author CarePlan"
               fullWidth={true}
+              primary={true}
               //onClick={this.authorCarePlan.bind(this)}
               style={{marginBottom: '60px'}}
             />
