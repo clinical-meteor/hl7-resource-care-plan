@@ -53,10 +53,11 @@ flattenCarePlan = function(plan){
     result.goals = plan.goal.length;
   }
 
-  
-
   if(!result.title){
     result.title = get(plan, 'title', '')    
+  }
+  if(!result.title){
+    result.title = get(plan, 'description', '')    
   }
   if(!result.title){
     result.title = get(plan, 'category[0].text', '')    
@@ -146,17 +147,13 @@ export class CarePlansTable extends React.Component {
   noChange(){
     return "";
   }
-  rowClick(id){
-    // set the user
-    Session.set("selectedCarePlan", id);
-
-    // // set which tab is selected
-    // let state = Session.get('patientCardState');
-    // state["index"] = 2;
-    // Session.set('patientCardState', state);
-
-    browserHistory.push('/careplan/' + id);
-
+  rowClick(carePlanId){
+    if(typeof(this.props.onRowClick) === "function"){
+      this.props.onRowClick(carePlanId);
+    } else {
+      Session.set("selectedCarePlan", carePlanId);
+      browserHistory.push('/careplan/' + carePlanId);  
+    }
   }
   renderBarcode(_id){
     if (this.props.showBarcode) {
@@ -249,6 +246,7 @@ export class CarePlansTable extends React.Component {
 CarePlansTable.propTypes = {
   data: PropTypes.array,
   query: PropTypes.object,
+  onRowClick: PropTypes.func,
   paginationLimit: PropTypes.number,
   hideIdentifier: PropTypes.bool,
   hideToggle: PropTypes.bool,
