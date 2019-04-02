@@ -183,6 +183,7 @@ export class CarePlanDesignerPage extends React.Component {
                 hideMaritalStatus={true}
                 hideLanguage={true}
                 onRowClick={function(patientId){
+                  console.log('CarePlanDesigner.PatientTable.onRowClick()')
                   Session.set('selectedPatientId', patientId);
                   Session.set('selectedPatient', Patients.findOne({id: patientId}));
                   Session.set('patientDialogOpen', false);
