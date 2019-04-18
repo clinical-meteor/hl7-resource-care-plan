@@ -275,7 +275,7 @@ export class CarePlanDesignerPage extends React.Component {
             </section>   */}
       
           </Col>
-          <Col md={6}>
+          <Col md={6} style={{position: 'sticky', top: '0px'}}>
             <CarePlansTable 
               onRowClick={this.selectCarePlan.bind(this) }
             />
