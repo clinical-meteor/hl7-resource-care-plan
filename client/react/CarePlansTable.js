@@ -10,7 +10,6 @@ import { browserHistory } from 'react-router';
 import PropTypes from 'prop-types';
 
 import { FaTags, FaCode, FaPuzzlePiece, FaLock  } from 'react-icons/fa';
-
 import { GoTrashcan } from 'react-icons/go'
 
 
@@ -131,7 +130,18 @@ export class CarePlansTable extends React.Component {
 
     return data;
   }
+  removeRecord(_id){
+    console.log('Remove careplan ', _id)
+    CarePlans._collection.remove({_id: _id})
+  }
+  showSecurityDialog(carePlan){
+    console.log('showSecurityDialog', carePlan)
 
+    Session.set('securityDialogResourceJson', CarePlans.findOne(get(carePlan, '_id')));
+    Session.set('securityDialogResourceType', 'CarePlan');
+    Session.set('securityDialogResourceId', get(carePlan, '_id'));
+    Session.set('securityDialogOpen', true);
+  }
   handleChange(row, key, value) {
     const source = this.state.source;
     source[row][key] = value;
@@ -151,7 +161,9 @@ export class CarePlansTable extends React.Component {
     if(typeof(this.props.onRowClick) === "function"){
       this.props.onRowClick(carePlanId);
     } else {
-      Session.set("selectedCarePlan", carePlanId);
+      Session.set('selectedPatientId', carePlanId);
+      Session.set('selectedPatient', CarePlans.findOne(carePlanId));
+
       browserHistory.push('/careplan/' + carePlanId);  
     }
   }
@@ -170,7 +182,7 @@ export class CarePlansTable extends React.Component {
   renderToggleHeader(){
     if (!this.props.hideToggle) {
       return (
-        <th className="toggle">Toggle</th>
+        <th className="toggle" style={{width: '60px'}} >Toggle</th>
       );
     }
   }
@@ -199,19 +211,47 @@ export class CarePlansTable extends React.Component {
       );
     }
   }
+  renderActionIconsHeader(){
+    if (!this.props.hideActionIcons) {
+      return (
+        <th className='actionIcons' style={{minWidth: '120px'}}>Actions</th>
+      );
+    }
+  }
+  renderActionIcons(carePlan ){
+    if (!this.props.hideActionIcons) {
+      let iconStyle = {
+        marginLeft: '4px', 
+        marginRight: '4px', 
+        marginTop: '4px', 
+        fontSize: '120%'
+      }
+
+      return (
+        <td className='actionIcons' style={{minWidth: '120px'}}>
+          <FaTags style={iconStyle} onClick={this.showSecurityDialog.bind(this, carePlan)} />
+          <GoTrashcan style={iconStyle} onClick={this.removeRecord.bind(this, carePlan._id)} />  
+        </td>
+      );
+    }
+  } 
   render () {
     let tableRows = [];
     for (var i = 0; i < this.data.careplans.length; i++) {
+
+      let rowStyle = {
+        cursor: 'pointer',
+        textAlign: 'left'
+      }
+      if(get(this.data.careplans[i], 'modifierExtension[0]')){
+        rowStyle.color = "orange";
+      }
+
       tableRows.push(
-        <tr key={i} className="patientRow" style={{cursor: "pointer", textAlign: 'left'}} onClick={ this.rowClick.bind(this, this.data.careplans[i]._id)} >
+        <tr key={i} className="patientRow" style={rowStyle} onClick={ this.rowClick.bind(this, this.data.careplans[i]._id)} >
           { this.renderToggle(this.data.careplans[i]._id) }
-          <td className='meta' style={{width: '120px'}}>
-            <FaLock style={{marginLeft: '2px', marginRight: '2px'}} />
-            <FaTags style={{marginLeft: '2px', marginRight: '2px'}} />
-            <FaCode style={{marginLeft: '2px', marginRight: '2px'}} />
-            <FaPuzzlePiece style={{marginLeft: '2px', marginRight: '2px'}} />
-            <GoTrashcan style={{marginLeft: '2px', marginRight: '2px'}} />
-          </td>
+          { this.renderActionIcons(this.data.careplans[i]) }
+
           <td>{this.data.careplans[i].title }</td>
           {/* <td>{this.data.careplans[i].subject }</td> */}
           { this.renderSubject( this.data.careplans[i].subject ) } 
@@ -226,7 +266,7 @@ export class CarePlansTable extends React.Component {
         <thead>
           <tr>
             { this.renderToggleHeader() }
-            <th className='actions'>Actions</th>
+            { this.renderActionIconsHeader() }
             <th>Title</th>
             { this.renderSubjectHeader() }
             {/* <th>Subject</th> */}
