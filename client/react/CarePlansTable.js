@@ -1,4 +1,5 @@
-import { Card, CardActions, CardMedia, CardText, CardTitle, Toggle } from 'material-ui';
+            <th>Goals</th>
+import { Card, CardActions, CardMedia, CardText, CardTitle, Checkbox } from 'material-ui';
 
 import React from 'react';
 import ReactMixin from 'react-mixin';
@@ -24,32 +25,36 @@ flattenCarePlan = function(plan){
     subject: '',
     author: '',
     template: '',
+    category: '',
     am: '',
     pm: '',
-    activities: '',
-    goals: '',
+    activities: 0,
+    goals: 0,
+    addresses: 0,
     start: '',
     end: '',
     title: ''
   };
 
-  if (plan.template) {
+  if (get(plan, 'template')) {
     result.template = plan.template.toString();
   }
-  if (plan.subject && plan.subject.display) {
-    result.subject = plan.subject.display;
-  }
-  if (plan.author && plan.author[0] && plan.author[0].display) {
-    result.author = plan.author[0].display;
-  }
-  if (plan.createdAt) {
-    result.createdAt = moment(plan.period.start).format("YYYY-MM-DD hh:mm a");
-  }
-  if (plan.activity) {
+
+  result.subject = get(plan, 'subject.display', '');
+  result.author = get(plan, 'author[0].display', '')
+  result.start = moment(get(plan, 'period.start')).format("YYYY-MM-DD hh:mm a");
+  result.end = moment(get(plan, 'period.start')).format("YYYY-MM-DD hh:mm a");
+  result.category = get(plan, 'category[0].text', '')    
+
+
+  if (get(plan, 'activity')) {
     result.activities = plan.activity.length;
   }
-  if (plan.goal) {
+  if (get(plan, 'goal')) {
     result.goals = plan.goal.length;
+  }
+  if (get(plan, 'addresses')) {
+    result.addresses = plan.addresses.length;
   }
 
   if(!result.title){
@@ -57,9 +62,6 @@ flattenCarePlan = function(plan){
   }
   if(!result.title){
     result.title = get(plan, 'description', '')    
-  }
-  if(!result.title){
-    result.title = get(plan, 'category[0].text', '')    
   }
   if(!result.title){
     result.title = get(plan, 'category[0].coding[0].display', '')    
@@ -179,19 +181,19 @@ export class CarePlansTable extends React.Component {
       return (<th>id</th>);
     }
   }
-  renderToggleHeader(){
-    if (!this.props.hideToggle) {
+  renderCheckboxHeader(){
+    if (!this.props.hideCheckboxes) {
       return (
-        <th className="toggle" style={{width: '60px'}} >Toggle</th>
+        <th className="toggle" style={{width: '60px'}} >Checkbox</th>
       );
     }
   }
-  renderToggle(){
-    if (!this.props.hideToggle) {
+  renderCheckbox(){
+    if (!this.props.hideCheckboxes) {
       return (
         <td className="toggle" style={{width: '60px'}}>
-            <Toggle
-              defaultToggled={true}
+            <Checkbox
+              defaultCheckbox={true}
             />
           </td>
       );
@@ -214,7 +216,7 @@ export class CarePlansTable extends React.Component {
   renderActionIconsHeader(){
     if (!this.props.hideActionIcons) {
       return (
-        <th className='actionIcons' style={{minWidth: '120px'}}>Actions</th>
+        <th className='actionIcons' style={{width: '100px'}}>Actions</th>
       );
     }
   }
@@ -247,15 +249,22 @@ export class CarePlansTable extends React.Component {
         rowStyle.color = "orange";
       }
 
+      let activitesCount = get(this.data.careplans[i], 'activities', []);
+      let goalsCount = get(this.data.careplans[i], 'goals', []);
+      let addressesCount = get(this.data.careplans[i], 'addresses', []);
+
       tableRows.push(
         <tr key={i} className="patientRow" style={rowStyle} onClick={ this.rowClick.bind(this, this.data.careplans[i]._id)} >
-          { this.renderToggle(this.data.careplans[i]._id) }
+          { this.renderCheckbox(this.data.careplans[i]._id) }
           { this.renderActionIcons(this.data.careplans[i]) }
 
           <td>{this.data.careplans[i].title }</td>
           {/* <td>{this.data.careplans[i].subject }</td> */}
           { this.renderSubject( this.data.careplans[i].subject ) } 
           <td>{this.data.careplans[i].author }</td>
+          <td>{ this.data.careplans[i].activities }</td>
+          <td>{ this.data.careplans[i].goals }</td>
+          <td>{ this.data.careplans[i].addresses }</td>
         </tr>
       );
     }
@@ -265,12 +274,15 @@ export class CarePlansTable extends React.Component {
       <Table hover >
         <thead>
           <tr>
-            { this.renderToggleHeader() }
+            { this.renderCheckboxHeader() }
             { this.renderActionIconsHeader() }
             <th>Title</th>
             { this.renderSubjectHeader() }
             {/* <th>Subject</th> */}
             <th>Author</th>
+            <th>Activites</th>
+            <th>Goals</th>
+            <th>Conditions Addressed</th>
           </tr>
         </thead>
         <tbody>
@@ -289,7 +301,7 @@ CarePlansTable.propTypes = {
   onRowClick: PropTypes.func,
   paginationLimit: PropTypes.number,
   hideIdentifier: PropTypes.bool,
-  hideToggle: PropTypes.bool,
+  hideCheckboxes: PropTypes.bool,
   hideActionIcons: PropTypes.bool,
   hideSubject: PropTypes.bool,
   enteredInError: PropTypes.bool

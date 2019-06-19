@@ -53,7 +53,12 @@ export class CarePlanDetailPage extends React.Component {
           <GlassCard >
             <CardTitle title='Conditions Addressed' />
             <CardText>
-            <ConditionsTable />
+            <ConditionsTable
+              hideCheckboxes={true}
+              hideIdentifier={true}
+              hidePatientName={true}
+              hideAsserterName={true}
+            />
               {/* <ConditionsTable conditions={get(this, 'data.currentCarePlan.addresses')} /> */}
             </CardText>
           </GlassCard>
@@ -62,7 +67,10 @@ export class CarePlanDetailPage extends React.Component {
           <GlassCard >
             <CardTitle title='Goals' />
             <CardText>
-              <GoalsTable />
+              <GoalsTable 
+                hideIdentifier={true}
+                hideCheckboxes={true}
+              />
             </CardText>
           </GlassCard>
           <DynamicSpacer />
