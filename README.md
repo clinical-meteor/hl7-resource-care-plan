@@ -27,6 +27,27 @@ INITIALIZE=true meteor
 
 #### Example   
 
+If you are going to use the `CarePlanDesignerPage`, you will need to set the following keys in your `Meteor.settings` file.  
+
+```
+{
+  "public": {
+    "modules": {
+      "fhir": {
+        "CarePlans": {
+            "displayGoalsCard": true,
+            "displayMedicationsCard": true,
+            "displayActivitiesCard": true,
+            "displayQuestionnairesCard": true
+          }
+      }
+    }
+  }
+}
+```
+
+#### Example   
+
 ```js
 var newCarePlan = {
   resourceType: "CarePlan",

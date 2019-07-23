@@ -196,84 +196,101 @@ export class CarePlanDesignerPage extends React.Component {
       <DynamicSpacer />
     </section>
     }
+
+
+    let goalsCard;
+    if(get(Meteor, 'settings.public.modules.fhir.CarePlans.displayGoalsCard') !== false){
+      goalsCard = <section id="goalsSelection" style={style.indexCardPadding} >
+        <GlassCard style={style.indexCard} >
+          <CardTitle
+            title='Goals'
+            subtitle='Select the goals for the patient treatment.'
+          />
+          <CardText>
+            <GoalsTable 
+              hideIdentifier={true} 
+              onRemoveRecord={function(goalId){
+                Goals._collection.remove({_id: goalId})
+              }}  
+            />
+          </CardText>
+        </GlassCard>
+        <DynamicSpacer />          
+      </section>
+    }
+    let medicationsCard;
+    if(get(Meteor, 'settings.public.modules.fhir.CarePlans.displayMedicationsCard')){
+      medicationsCard = <section id="medicationSection" style={style.indexCardPadding} >
+        <GlassCard style={style.indexCard} >
+          <CardTitle
+            title='Medications'
+            subtitle='Select the medications the patient will receive.'
+          />
+          <CardText>
+            <MedicationsTable 
+              hideIdentifier={true}  
+              onRemoveRecord={function(medicationId){
+                Medications._collection.remove({_id: medicationId})
+              }}  
+            />
+          </CardText>
+        </GlassCard>
+        <DynamicSpacer />
+      </section>
+    }
+    let activitesCard;
+    if(get(Meteor, 'settings.public.modules.fhir.CarePlans.displayActivitiesCard') !== false){
+      activitesCard = <section id="activitiesSection" style={style.indexCardPadding} >
+        <GlassCard style={style.indexCard} >
+          <CardTitle
+            title='Activities'
+            subtitle='Select the activities the patient ought to engage in.'
+          />
+          <CardText>
+            <ActivitiesTable
+              hideIdentifier={true} 
+              onRemoveRecord={function(activityId){
+                Activities._collection.remove({_id: activityId})
+              }}  
+            />
+          </CardText>
+        </GlassCard>
+        <DynamicSpacer />
+      </section>
+    }
+    let questionnairesCard;
+    if(get(Meteor, 'settings.public.modules.fhir.CarePlans.displayQuestionnairesCard') !== false){
+      questionnairesCard = <section id="questionnairesSection" style={style.indexCardPadding} >
+        <GlassCard style={style.indexCard} >
+          <CardTitle
+            title='Questionnaires'
+            subtitle='The questionnaire that you need the patient to answer.'
+          />
+          <CardText>
+            <QuestionnaireTable
+              hideIdentifier={true} 
+              hideToggles={true} 
+              hideActions={true} 
+              onRemoveRecord={function(quesitonnaireId){
+                Questionnaires._collection.remove({_id: quesitonnaireId})
+              }}  
+              />
+          </CardText>
+        </GlassCard>
+        <DynamicSpacer />        
+      </section>
+    }
+
     return (
       <section id='carePlanDesignerPage' style={{paddingTop: "20px"}}>
         <FullPageCanvas >
 
           <Col md={6}>
-            { patientPicklist }
-
-            <section id="goalsSelection" style={style.indexCardPadding} >
-              <GlassCard style={style.indexCard} >
-                <CardTitle
-                  title='Goals'
-                  subtitle='Select the goals for the patient treatment.'
-                />
-                <CardText>
-                  <GoalsTable hideIdentifier={true} />
-                </CardText>
-              </GlassCard>
-            </section>
-
-            <DynamicSpacer />          
-
-            <section id="medicationSection" style={style.indexCardPadding} >
-              <GlassCard style={style.indexCard} >
-                <CardTitle
-                  title='Medications'
-                  subtitle='Select the medications the patient will receive.'
-                />
-                <CardText>
-                  <MedicationsTable hideIdentifier={true}  />
-                </CardText>
-              </GlassCard>
-            </section>
-
-            <DynamicSpacer />
-
-            <section id="activitiesSection" style={style.indexCardPadding} >
-              <GlassCard style={style.indexCard} >
-                <CardTitle
-                  title='Activities'
-                  subtitle='Select the activities the patient ought to engage in.'
-                />
-                <CardText>
-                  <ActivitiesTable
-                    hideIdentifier={true} 
-                    />
-                </CardText>
-              </GlassCard>
-            </section>
-            <DynamicSpacer />
-
-            <section id="questionnairesSection" style={style.indexCardPadding} >
-              <GlassCard style={style.indexCard} >
-                <CardTitle
-                  title='Questionnaires'
-                  subtitle='The questionnaire that you need the patient to answer.'
-                />
-                <CardText>
-                  <QuestionnaireTable
-                    hideIdentifier={true} 
-                    hideToggles={true} 
-                    hideActions={true} 
-                    />
-                </CardText>
-              </GlassCard>
-            </section>
-            <DynamicSpacer />
-
-            {/* <section  style={style.indexCardPadding}>
-              <RaisedButton
-                id='authorCarePlanButton'
-                label="Author CarePlan"
-                fullWidth={true}
-                primary={true}
-                onClick={this.authorCarePlan.bind(this)}
-                style={{marginBottom: '60px'}}
-              />
-            </section>   */}
-      
+            { patientPicklist } 
+            { goalsCard }
+            { medicationsCard }
+            { activitesCard }            
+            { questionnairesCard }
           </Col>
           <Col md={6} style={{position: 'sticky', top: '0px'}}>
             <CarePlansTable 

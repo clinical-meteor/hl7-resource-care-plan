@@ -184,7 +184,7 @@ export class CarePlansTable extends React.Component {
   renderCheckboxHeader(){
     if (!this.props.hideCheckboxes) {
       return (
-        <th className="toggle" style={{width: '60px'}} >Checkbox</th>
+        <th className="toggle" style={{width: '60px'}} ></th>
       );
     }
   }
@@ -193,7 +193,7 @@ export class CarePlansTable extends React.Component {
       return (
         <td className="toggle" style={{width: '60px'}}>
             <Checkbox
-              defaultCheckbox={true}
+              defaultChecked={true}
             />
           </td>
       );
