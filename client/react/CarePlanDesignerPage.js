@@ -1,12 +1,23 @@
-import { Card, CardHeader, CardText, CardTitle, Dialog, FlatButton, RaisedButton, TextField } from 'material-ui';
-import { GlassCard, FullPageCanvas, Glass, DynamicSpacer } from 'meteor/clinical:glass-ui';
+import { 
+  Card,
+  CardHeader,
+  CardContent,
+  Button,
+  TextField,
+  Dialog,
+  Grid
+} from '@material-ui/core';
+import { StyledCard, PageCanvas, DynamicSpacer } from 'material-fhir-ui';
 
-import AccountCircle from 'material-ui/svg-icons/action/account-circle';
+// import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 
 import { ActivitiesTable, GoalsTable } from 'meteor/clinical:hl7-resource-goal';
 import { MedicationsTable } from 'meteor/clinical:hl7-resource-medication';
-import { PatientTable } from 'meteor/clinical:hl7-resource-patient'
-import { QuestionnaireTable } from 'meteor/clinical:hl7-resource-questionnaire';
+import { PatientTable } from 'meteor/clinical:hl7-resource-patient';
+
+if(Package["clinical:hl7-resource-questionnaire"]){
+  import { QuestionnaireTable } from 'meteor/clinical:hl7-resource-questionnaire';
+}
 
 import { CarePlansTable } from './CarePlansTable';
 
@@ -18,7 +29,6 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
 import { browserHistory } from 'react-router';
-import { Col, Grid, Row } from 'react-bootstrap';
 
 import { get } from 'lodash';
 
@@ -26,6 +36,7 @@ Session.setDefault('patientDialogOpen', false);
 Session.setDefault('selectedPatient', false);
 Session.setDefault('selectedPatientId', false);
 Session.setDefault('selectedCarePlanId', false);
+
 export class CarePlanDesignerPage extends React.Component {
   constructor(props) {
     super(props);
@@ -81,8 +92,8 @@ export class CarePlanDesignerPage extends React.Component {
       }
     }
 
-    data.style = Glass.blur(data.style);
-    data.style.tab = Glass.darkroom(data.style.tab);
+    // data.style = Glass.blur(data.style);
+    // data.style.tab = Glass.darkroom(data.style.tab);
 
     return data;
   }
@@ -123,28 +134,26 @@ export class CarePlanDesignerPage extends React.Component {
       }
     };
     const patientActions = [
-      <FlatButton
-        label="Clear"
+      <Button
         primary={true}
         onClick={this.handleClosePatients.bind(this)}
-      />,
-      <FlatButton
-        label="Select"
+      >Clear</Button>,
+      <Button
         primary={true}
         keyboardFocused={true}
         onClick={this.handleClosePatients.bind(this)}
-      />
+      >Select</Button>
     ];
 
     let patientPicklist;
 
     if(!this.data.selectedPatient){
       patientPicklist = <section id="patientSection" style={style.indexCardPadding} >
-      <GlassCard>
-        <CardTitle
+      <StyledCard>
+        <CardHeader
           title="Patient Pick List"
         />
-        <CardText>
+        <CardContent>
 
           <TextField
             hintText="Jane Doe"
@@ -152,13 +161,13 @@ export class CarePlanDesignerPage extends React.Component {
             onChange={this.changeInput.bind(this, 'patientSearch')}
             value={this.data.patientDialog.patient.display}
             fullWidth>
-              <FlatButton
+              <Button
                 label="Patients"
                 id="patientSearchButton"
                 className="patientsButton"
                 primary={true}
                 onClick={this.handleOpenPatients.bind(this) }
-                icon={ <AccountCircle /> }
+                // icon={ <AccountCircle /> }
                 style={{float: 'right', cursor: 'pointer', zIndex: 200, width: '160px', textAlign: 'right'}}
               />
             </TextField>
@@ -170,7 +179,7 @@ export class CarePlanDesignerPage extends React.Component {
             open={this.data.patientDialog.open}
             onRequestClose={this.handleClosePatients.bind(this)}
           >
-            <CardText style={{overflowY: "auto"}}>
+            <CardContent style={{overflowY: "auto"}}>
             <TextField
               hintText="Jane Doe"
               errorText="Patient Search"
@@ -189,10 +198,10 @@ export class CarePlanDesignerPage extends React.Component {
                   Session.set('patientDialogOpen', false);
                 }}
               />
-            </CardText>
+            </CardContent>
           </Dialog>
-        </CardText>
-      </GlassCard>
+        </CardContent>
+      </StyledCard>
       <DynamicSpacer />
     </section>
     }
@@ -201,72 +210,73 @@ export class CarePlanDesignerPage extends React.Component {
     let goalsCard;
     if(get(Meteor, 'settings.public.modules.fhir.CarePlans.displayGoalsCard') !== false){
       goalsCard = <section id="goalsSelection" style={style.indexCardPadding} >
-        <GlassCard style={style.indexCard} >
-          <CardTitle
+        <StyledCard style={style.indexCard} >
+          <CardHeader
             title='Goals'
             subtitle='Select the goals for the patient treatment.'
           />
-          <CardText>
+          <CardContent>
             <GoalsTable 
               hideIdentifier={true} 
               onRemoveRecord={function(goalId){
                 Goals._collection.remove({_id: goalId})
               }}  
             />
-          </CardText>
-        </GlassCard>
+          </CardContent>
+        </StyledCard>
         <DynamicSpacer />          
       </section>
     }
     let medicationsCard;
     if(get(Meteor, 'settings.public.modules.fhir.CarePlans.displayMedicationsCard')){
       medicationsCard = <section id="medicationSection" style={style.indexCardPadding} >
-        <GlassCard style={style.indexCard} >
-          <CardTitle
+        <StyledCard style={style.indexCard} >
+          <CardHeader
             title='Medications'
             subtitle='Select the medications the patient will receive.'
           />
-          <CardText>
+          <CardContent>
             <MedicationsTable 
               hideIdentifier={true}  
               onRemoveRecord={function(medicationId){
                 Medications._collection.remove({_id: medicationId})
               }}  
             />
-          </CardText>
-        </GlassCard>
+          </CardContent>
+        </StyledCard>
         <DynamicSpacer />
       </section>
     }
     let activitesCard;
     if(get(Meteor, 'settings.public.modules.fhir.CarePlans.displayActivitiesCard') !== false){
       activitesCard = <section id="activitiesSection" style={style.indexCardPadding} >
-        <GlassCard style={style.indexCard} >
-          <CardTitle
+        <StyledCard style={style.indexCard} >
+          <CardHeader
             title='Activities'
             subtitle='Select the activities the patient ought to engage in.'
           />
-          <CardText>
+          <CardContent>
             <ActivitiesTable
               hideIdentifier={true} 
               onRemoveRecord={function(activityId){
                 Activities._collection.remove({_id: activityId})
               }}  
             />
-          </CardText>
-        </GlassCard>
+          </CardContent>
+        </StyledCard>
         <DynamicSpacer />
       </section>
     }
     let questionnairesCard;
     if(get(Meteor, 'settings.public.modules.fhir.CarePlans.displayQuestionnairesCard') !== false){
-      questionnairesCard = <section id="questionnairesSection" style={style.indexCardPadding} >
-        <GlassCard style={style.indexCard} >
-          <CardTitle
+      if(Package["clinical:hl7-resource-questionnaire"]){
+        questionnairesCard = <section id="questionnairesSection" style={style.indexCardPadding} >
+        <StyledCard style={style.indexCard} >
+          <CardHeader
             title='Questionnaires'
             subtitle='The questionnaire that you need the patient to answer.'
           />
-          <CardText>
+          <CardContent>
             <QuestionnaireTable
               hideIdentifier={true} 
               hideToggles={true} 
@@ -275,30 +285,31 @@ export class CarePlanDesignerPage extends React.Component {
                 Questionnaires._collection.remove({_id: quesitonnaireId})
               }}  
               />
-          </CardText>
-        </GlassCard>
+          </CardContent>
+        </StyledCard>
         <DynamicSpacer />        
       </section>
+      }
     }
 
     return (
       <section id='carePlanDesignerPage' style={{paddingTop: "20px"}}>
-        <FullPageCanvas >
-
-          <Col md={6}>
-            { patientPicklist } 
-            { goalsCard }
-            { medicationsCard }
-            { activitesCard }            
-            { questionnairesCard }
-          </Col>
-          <Col md={6} style={{position: 'sticky', top: '0px'}}>
-            <CarePlansTable 
-              onRowClick={this.selectCarePlan.bind(this) }
-            />
-          </Col>
-
-        </FullPageCanvas>
+        <PageCanvas >
+          <Grid container spacing={3}>
+            <Grid item md={6}>  
+              { patientPicklist } 
+              { goalsCard }
+              { medicationsCard }
+              { activitesCard }            
+              { questionnairesCard }
+            </Grid>
+            <Grid item md={6} style={{position: 'sticky', top: '0px'}}>  
+              <CarePlansTable 
+                onRowClick={this.selectCarePlan.bind(this) }
+              />
+            </Grid>
+          </Grid>          
+        </PageCanvas>        
       </section>
     );
   }

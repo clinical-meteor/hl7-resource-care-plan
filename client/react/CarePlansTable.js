@@ -1,11 +1,15 @@
-            <th>Goals</th>
-import { Card, CardActions, CardMedia, CardText, CardTitle, Checkbox } from 'material-ui';
+import { 
+  Checkbox, 
+  Table, 
+  TableRow, 
+  TableCell,
+  TableBody
+} from '@material-ui/core';
 
 import React from 'react';
 import ReactMixin from 'react-mixin';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
-import { Table } from 'react-bootstrap';
-import { get, has } from 'lodash';
+import { get } from 'lodash';
 
 import { browserHistory } from 'react-router';
 import PropTypes from 'prop-types';
@@ -172,51 +176,51 @@ export class CarePlansTable extends React.Component {
   renderBarcode(_id){
     if (this.props.showBarcode) {
       return (
-        <td><span className="barcode">{ _id }</span></td>
+        <TableCell><span className="barcode helvetica">{ _id }</span></TableCell>
       );
     }
   }
   renderBarcodeHeader(){
     if (this.props.showBarcode) {
-      return (<th>id</th>);
+      return (<TableCell>id</TableCell>);
     }
   }
   renderCheckboxHeader(){
     if (!this.props.hideCheckboxes) {
       return (
-        <th className="toggle" style={{width: '60px'}} ></th>
+        <TableCell className="toggle" style={{width: '60px'}} ></TableCell>
       );
     }
   }
   renderCheckbox(){
     if (!this.props.hideCheckboxes) {
       return (
-        <td className="toggle" style={{width: '60px'}}>
+        <TableCell className="toggle" style={{width: '60px'}}>
             <Checkbox
               defaultChecked={true}
             />
-          </td>
+          </TableCell>
       );
     }
   }
   renderSubjectHeader(){
     if (!this.props.hideSubject) {
       return (
-        <th className='patientDisplay'>Patient</th>
+        <TableCell className='patientDisplay'>Patient</TableCell>
       );
     }
   }
   renderSubject(subject ){
     if (!this.props.hideSubject) {
       return (
-        <td className='subject' style={{minWidth: '140px'}}>{ subject }</td>
+        <TableCell className='subject' style={{minWidth: '140px'}}>{ subject }</TableCell>
       );
     }
   }
   renderActionIconsHeader(){
     if (!this.props.hideActionIcons) {
       return (
-        <th className='actionIcons' style={{width: '100px'}}>Actions</th>
+        <TableCell className='actionIcons' style={{width: '100px'}}>Actions</TableCell>
       );
     }
   }
@@ -230,10 +234,10 @@ export class CarePlansTable extends React.Component {
       }
 
       return (
-        <td className='actionIcons' style={{minWidth: '120px'}}>
+        <TableCell className='actionIcons' style={{minWidth: '120px'}}>
           <FaTags style={iconStyle} onClick={this.showSecurityDialog.bind(this, carePlan)} />
           <GoTrashcan style={iconStyle} onClick={this.removeRecord.bind(this, carePlan._id)} />  
-        </td>
+        </TableCell>
       );
     }
   } 
@@ -254,40 +258,40 @@ export class CarePlansTable extends React.Component {
       let addressesCount = get(this.data.careplans[i], 'addresses', []);
 
       tableRows.push(
-        <tr key={i} className="patientRow" style={rowStyle} onClick={ this.rowClick.bind(this, this.data.careplans[i]._id)} >
+        <TableRow key={i} className="patientRow" style={rowStyle} onClick={ this.rowClick.bind(this, this.data.careplans[i]._id)} >
           { this.renderCheckbox(this.data.careplans[i]._id) }
           { this.renderActionIcons(this.data.careplans[i]) }
 
-          <td>{this.data.careplans[i].title }</td>
-          {/* <td>{this.data.careplans[i].subject }</td> */}
+          <TableCell>{this.data.careplans[i].title }</TableCell>
+          {/* <TableCell>{this.data.careplans[i].subject }</TableCell> */}
           { this.renderSubject( this.data.careplans[i].subject ) } 
-          <td>{this.data.careplans[i].author }</td>
-          <td>{ this.data.careplans[i].activities }</td>
-          <td>{ this.data.careplans[i].goals }</td>
-          <td>{ this.data.careplans[i].addresses }</td>
-        </tr>
+          <TableCell>{this.data.careplans[i].author }</TableCell>
+          <TableCell>{ this.data.careplans[i].activities }</TableCell>
+          <TableCell>{ this.data.careplans[i].goals }</TableCell>
+          <TableCell>{ this.data.careplans[i].addresses }</TableCell>
+        </TableRow>
       );
     }
 
 
     return(
       <Table hover >
-        <thead>
-          <tr>
+        <TableHead>
+          <TableRow>
             { this.renderCheckboxHeader() }
             { this.renderActionIconsHeader() }
-            <th>Title</th>
+            <TableCell>Title</TableCell>
             { this.renderSubjectHeader() }
-            {/* <th>Subject</th> */}
-            <th>Author</th>
-            <th>Activites</th>
-            <th>Goals</th>
-            <th>Conditions Addressed</th>
-          </tr>
-        </thead>
-        <tbody>
+            {/* <TableCell>Subject</TableCell> */}
+            <TableCell>Author</TableCell>
+            <TableCell>Activites</TableCell>
+            <TableCell>Goals</TableCell>
+            <TableCell>Conditions Addressed</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           { tableRows }
-        </tbody>
+        </TableBody>
       </Table>
 
     );

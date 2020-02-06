@@ -1,6 +1,13 @@
-import { CardText, CardTitle } from 'material-ui/Card';
-import {Tab, Tabs} from 'material-ui/Tabs';
-import { GlassCard, VerticalCanvas, Glass, DynamicSpacer } from 'meteor/clinical:glass-ui';
+import { 
+  Card,
+  CardHeader,
+  CardContent,
+  Tab, 
+  Tabs,
+  Typography,
+  Box
+} from '@material-ui/core';
+import { StyledCard, PageCanvas, DynamicSpacer } from 'material-fhir-ui';
 
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
@@ -34,9 +41,9 @@ export class CarePlanDetailPage extends React.Component {
       data.currentCarePlan = CarePlans.findOne({_id: this.props.params.id});
     }
 
-    data.style = Glass.blur(data.style);
-    data.style.appbar = Glass.darkroom(data.style.appbar);
-    data.style.tab = Glass.darkroom(data.style.tab);
+    // data.style = Glass.blur(data.style);
+    // data.style.appbar = Glass.darkroom(data.style.appbar);
+    // data.style.tab = Glass.darkroom(data.style.tab);
 
     console.log('CarePlanDetailPage.data', data)
     // console.log('CarePlanDetailPage.props', this.props)
@@ -48,43 +55,41 @@ export class CarePlanDetailPage extends React.Component {
     if(process.env.NODE_ENV === "test") console.log('In CarePlanDetailPage render');
     return (
       <div id='carePlanDetailPage'>
-        <VerticalCanvas>
+        <PageCanvas>
 
-          <GlassCard >
-            <CardTitle title='Conditions Addressed' />
-            <CardText>
-            <ConditionsTable
-              hideCheckboxes={true}
-              hideIdentifier={true}
-              hidePatientName={true}
-              hideAsserterName={true}
-            />
+          <StyledCard >
+            <CardHeader title='Conditions Addressed' />
+            <CardContent>
+              <ConditionsTable
+                hideCheckboxes={true}
+                hideIdentifier={true}
+                hidePatientName={true}
+                hideAsserterName={true}
+              />
               {/* <ConditionsTable conditions={get(this, 'data.currentCarePlan.addresses')} /> */}
-            </CardText>
-          </GlassCard>
+            </CardContent>
+          </StyledCard>
           <DynamicSpacer />
 
-          <GlassCard >
-            <CardTitle title='Goals' />
-            <CardText>
+          <StyledCard >
+            <CardHeader title='Goals' />
+            <CardContent>
               <GoalsTable 
                 hideIdentifier={true}
                 hideCheckboxes={true}
               />
-            </CardText>
-          </GlassCard>
+            </CardContent>
+          </StyledCard>
           <DynamicSpacer />
 
-          <GlassCard >
-            <CardTitle title='Medications' />
-            <CardText>
+          <StyledCard >
+            <CardHeader title='Medications' />
+            <CardContent>
               <MedicationsTable />
-            </CardText>
-          </GlassCard>
+            </CardContent>
+          </StyledCard>
           <DynamicSpacer />
-
-
-        </VerticalCanvas>
+        </PageCanvas>
       </div>
     );
   }

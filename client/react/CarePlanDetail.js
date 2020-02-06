@@ -1,12 +1,26 @@
-import { CardActions, CardText, CardTitle, RaisedButton } from 'material-ui';
+import { 
+  CssBaseline,
+  Grid, 
+  Container,
+  Divider,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+  Button,
+  Tab, 
+  Tabs,
+  Typography,
+  TextField,
+  DatePicker,
+  Box
+} from '@material-ui/core';
+import { StyledCard, PageCanvas, DynamicSpacer } from 'material-fhir-ui';
 
-import { Bert } from 'meteor/clinical:alert';
 import React from 'react';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin from 'react-mixin';
-import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
-import { Glass, GlassCard, VerticalCanvas, FullPageCanvas, DynamicSpacer } from 'meteor/clinical:glass-ui';
 
 import { ConditionsTable } from 'meteor/clinical:hl7-resource-condition';
 import { GoalsTable } from 'meteor/clinical:hl7-resource-goal';
@@ -95,17 +109,19 @@ export class CarePlanDetail extends React.Component {
   render() {
     return (
       <div id={this.props.id} className="carePlanDetail">
-        <CardTitle title='Addresses' />
-        <ConditionsTable />
-        <DynamicSpacer />
+        <CardContent>
+          <CardHeader title='Addresses' />
+          <ConditionsTable />
+          <DynamicSpacer />
 
-        <CardTitle title='Goals' />
-        <GoalsTable />
-        <DynamicSpacer />
+          <CardHeader title='Goals' />
+          <GoalsTable />
+          <DynamicSpacer />
 
-        <CardTitle title='Medications' />
-        <MedicationsTable />
-        <DynamicSpacer />
+          <CardHeader title='Medications' />
+          <MedicationsTable />
+          <DynamicSpacer />
+        </CardContent>
 
         <CardActions>
           { this.determineButtons(this.data.carePlanId) }
@@ -119,13 +135,13 @@ export class CarePlanDetail extends React.Component {
     if (carePlanId) {
       return (
         <div>
-          <RaisedButton id="saveCarePlanButton" label="Save" primary={true} onClick={this.handleSaveButton.bind(this)}  style={{marginRight: '20px'}}  />
-          <RaisedButton id="deleteCarePlanButton" label="Delete" onClick={this.handleDeleteButton.bind(this)} />
+          <Button id="saveCarePlanButton" primary={true} onClick={this.handleSaveButton.bind(this)}  style={{marginRight: '20px'}} >Save</Button>
+          <Button id="deleteCarePlanButton" onClick={this.handleDeleteButton.bind(this)}>Delete</Button>
         </div>
       );
     } else {
       return(
-        <RaisedButton id="saveCarePlanButton" label="Save" primary={true} onClick={this.handleSaveButton.bind(this)} />
+        <Button id="saveCarePlanButton" primary={true} onClick={this.handleSaveButton.bind(this)}>Save</Button>
       );
     }
   }
@@ -197,14 +213,14 @@ export class CarePlanDetail extends React.Component {
           if (error) {
             console.log("error", error);
 
-            Bert.alert(error.reason, 'danger');
+            // Bert.alert(error.reason, 'danger');
           }
           if (result) {
             HipaaLogger.logEvent({eventType: "update", userId: Meteor.userId(), userName: Meteor.user().fullName(), collectionName: "CarePlans", recordId: Session.get('selectedCarePlan')});
             Session.set('carePlanPageTabIndex', 1);
             Session.set('selectedCarePlan', false);
             Session.set('carePlanUpsert', false);
-            Bert.alert('CarePlan updated!', 'success');
+            // Bert.alert('CarePlan updated!', 'success');
           }
         });
     } else {
@@ -214,14 +230,14 @@ export class CarePlanDetail extends React.Component {
       CarePlans._collection.insert(carePlanUpdate, function(error, result) {
         if (error) {
           console.log("error", error);
-          Bert.alert(error.reason, 'danger');
+          // Bert.alert(error.reason, 'danger');
         }
         if (result) {
           HipaaLogger.logEvent({eventType: "create", userId: Meteor.userId(), userName: Meteor.user().fullName(), collectionName: "CarePlans", recordId: result});
           Session.set('carePlanPageTabIndex', 1);
           Session.set('selectedCarePlan', false);
           Session.set('carePlanUpsert', false);
-          Bert.alert('CarePlan added!', 'success');
+          // Bert.alert('CarePlan added!', 'success');
         }
       });
     }
@@ -234,14 +250,14 @@ export class CarePlanDetail extends React.Component {
   handleDeleteButton(){
     CarePlan._collection.remove({_id: Session.get('selectedCarePlan')}, function(error, result){
       if (error) {
-        Bert.alert(error.reason, 'danger');
+        // Bert.alert(error.reason, 'danger');
       }
       if (result) {
         HipaaLogger.logEvent({eventType: "delete", userId: Meteor.userId(), userName: Meteor.user().fullName(), collectionName: "CarePlans", recordId: Session.get('selectedCarePlan')});
         Session.set('carePlanPageTabIndex', 1);
         Session.set('selectedCarePlan', false);
         Session.set('carePlanUpsert', false);
-        Bert.alert('CarePlan removed!', 'success');
+        // Bert.alert('CarePlan removed!', 'success');
       }
     });
   }

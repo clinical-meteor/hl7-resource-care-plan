@@ -1,6 +1,13 @@
-import { CardText, CardTitle } from 'material-ui/Card';
-import {Tab, Tabs} from 'material-ui/Tabs';
-import { GlassCard, VerticalCanvas, Glass } from 'meteor/clinical:glass-ui';
+import { 
+  Card,
+  CardHeader,
+  CardContent,
+  Tab, 
+  Tabs,
+  Typography,
+  Box
+} from '@material-ui/core';
+import { StyledCard, PageCanvas } from 'material-fhir-ui';
 
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
@@ -11,6 +18,30 @@ import CarePlansTable from './CarePlansTable';
 import React  from 'react';
 import { ReactMeteorData } from 'meteor/react-meteor-data';
 import ReactMixin  from 'react-mixin';
+
+//=============================================================================================================================================
+// TABS
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <Typography
+      component="div"
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      <Box p={3}>{children}</Box>
+    </Typography>
+  );
+}
+
+//=============================================================================================================================================
+// COMPONENT
+
 
 export class CarePlansPage extends React.Component {
   getMeteorData() {
@@ -47,10 +78,10 @@ export class CarePlansPage extends React.Component {
     if(process.env.NODE_ENV === "test") console.log('In CarePlansPage render');
     return (
       <div id='carePlansPage'>
-        <VerticalCanvas>
-          <GlassCard height='auto'>
-            <CardTitle title='CarePlans' />
-            <CardText>
+        <PageCanvas>
+          <StyledCard height='auto'>
+            <CardHeader title='CarePlans' />
+            <CardContent>
               <CarePlansTable />
 
               {/* <Tabs id="carePlansPageTabs" default value={this.data.tabIndex} onChange={this.handleTabChange} initialSelectedIndex={1}>
@@ -61,9 +92,9 @@ export class CarePlansPage extends React.Component {
                  <CarePlanDetail id='carePlanDetails' />
                </Tab>
              </Tabs> */}
-            </CardText>
-          </GlassCard>
-        </VerticalCanvas>
+            </CardContent>
+          </StyledCard>
+        </PageCanvas>
       </div>
     );
   }

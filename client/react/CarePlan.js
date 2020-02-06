@@ -1,10 +1,6 @@
 import React from 'react';
 import { Row, Col, ListGroupItem, FormControl, Button } from 'react-bootstrap';
-import { Bert } from 'meteor/themeteorchef:bert';
 import { updateCarePlan, removeCarePlan } from '../../../api/careplans/methods.js';
-
-import { GlassCard } from '/imports/ui/components/GlassCard';
-import { Card, CardMedia, CardTitle, CardText, CardActions } from 'material-ui/Card';
 
 
 const handleUpdateCarePlan = (carePlanId, event) => {
@@ -15,9 +11,9 @@ const handleUpdateCarePlan = (carePlanId, event) => {
       update: { title }
     }, (error) => {
       if (error) {
-        Bert.alert(error.reason, 'danger');
+        // Bert.alert(error.reason, 'danger');
       } else {
-        Bert.alert('CarePlan updated!', 'success');
+        // Bert.alert('CarePlan updated!', 'success');
       }
     });
   }
@@ -33,9 +29,9 @@ const handleRemoveCarePlan = (documentId, event) => {
       _id: documentId
     }, (error) => {
       if (error) {
-        Bert.alert(error.reason, 'danger');
+        // Bert.alert(error.reason, 'danger');
       } else {
-        Bert.alert('CarePlan removed!', 'success');
+        // Bert.alert('CarePlan removed!', 'success');
       }
     });
   }
